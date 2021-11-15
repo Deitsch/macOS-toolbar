@@ -7,19 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8912B89F2742561D0084106B /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8912B89E2742561D0084106B /* WindowController.swift */; };
 		892B858A273D1E3D004AD473 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892B8589273D1E3D004AD473 /* AppDelegate.swift */; };
 		892B858C273D1E3D004AD473 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892B858B273D1E3D004AD473 /* ViewController.swift */; };
 		892B858E273D1E40004AD473 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 892B858D273D1E40004AD473 /* Assets.xcassets */; };
 		892B8591273D1E40004AD473 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 892B858F273D1E40004AD473 /* Main.storyboard */; };
+		892B8599273D2150004AD473 /* ConstraintHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 892B8598273D2150004AD473 /* ConstraintHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8912B89E2742561D0084106B /* WindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		892B8586273D1E3D004AD473 /* macOS-segmentControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "macOS-segmentControl.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		892B8589273D1E3D004AD473 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		892B858B273D1E3D004AD473 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		892B858D273D1E40004AD473 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		892B8590273D1E40004AD473 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		892B8592273D1E40004AD473 /* macOS_segmentControl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS_segmentControl.entitlements; sourceTree = "<group>"; };
+		892B8598273D2150004AD473 /* ConstraintHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 			children = (
 				892B8589273D1E3D004AD473 /* AppDelegate.swift */,
 				892B858B273D1E3D004AD473 /* ViewController.swift */,
+				8912B89E2742561D0084106B /* WindowController.swift */,
+				892B8598273D2150004AD473 /* ConstraintHelper.swift */,
 				892B858D273D1E40004AD473 /* Assets.xcassets */,
 				892B858F273D1E40004AD473 /* Main.storyboard */,
 				892B8592273D1E40004AD473 /* macOS_segmentControl.entitlements */,
@@ -132,6 +138,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				892B858C273D1E3D004AD473 /* ViewController.swift in Sources */,
+				892B8599273D2150004AD473 /* ConstraintHelper.swift in Sources */,
+				8912B89F2742561D0084106B /* WindowController.swift in Sources */,
 				892B858A273D1E3D004AD473 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
