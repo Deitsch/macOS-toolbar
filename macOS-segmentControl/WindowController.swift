@@ -11,6 +11,8 @@ enum ToolbarIdentifier: String, CaseIterable {
     case segment
     case flexibelSpace
     case space
+    case button
+    case nsbutton
     
     var identifier: NSToolbarItem.Identifier {
         switch self {
@@ -41,7 +43,7 @@ class WindowController: NSWindowController, NSToolbarDelegate {
     }
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [ToolbarIdentifier.segment.identifier]
+        return [ToolbarIdentifier.button.identifier]
     }
 
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
@@ -54,14 +56,24 @@ class WindowController: NSWindowController, NSToolbarDelegate {
             print("invalid toolbar item identifier: \(itemIdentifier)")
             return nil
         }
+        let item = NSToolbarItem(itemIdentifier: itemIdentifier)
         switch toolbarIdentifier {
         case .segment:
-            let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
-            toolbarItem.view = createSegmentControl()
-            return toolbarItem
+            item.view = createSegmentControl()
         case .flexibelSpace, .space:
-            return NSToolbarItem(itemIdentifier: itemIdentifier)
+            break
+        case .button:
+            item.isBordered = true
+            item.image = NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+            item.action = #selector(buttonClick)
+        case .nsbutton:
+            item.view = createNSButton()
         }
+        return item
+    }
+    
+    @objc func buttonClick() {
+        print("toolbar button clicked")
     }
     
     private func createSegmentControl() -> NSSegmentedControl {
@@ -84,5 +96,17 @@ class WindowController: NSWindowController, NSToolbarDelegate {
         segmented.target = self
         segmented.segmentDistribution = .fit
         return segmented
+    }
+    
+    func createNSButton() -> NSButton {
+        let button = NSButton(frame: NSRect.zero)
+        button.bezelStyle = .texturedRounded
+        button.imagePosition = .imageOnly
+        button.imageScaling = NSImageScaling.scaleProportionallyDown
+        button.image = NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+        button.objectValue = self
+        button.target = self
+        button.action = #selector(buttonClick)
+        return button
     }
 }
