@@ -13,6 +13,7 @@ enum ToolbarIdentifier: String, CaseIterable {
     case space
     case button
     case nsbutton
+    case search
     
     var identifier: NSToolbarItem.Identifier {
         switch self {
@@ -26,8 +27,13 @@ enum ToolbarIdentifier: String, CaseIterable {
     }
     
     var icon: NSImage? {
-        return NSImage(named: "favourites")
-        return NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+        // return NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+        switch self {
+        case .segment, .flexibelSpace, .space, .search:
+            return nil
+        case .button, .nsbutton:
+            return NSImage(named: "favourites")
+        }
     }
     
     var text: String {
@@ -40,6 +46,8 @@ enum ToolbarIdentifier: String, CaseIterable {
             return "button"
         case .nsbutton:
             return "nsbutton"
+        case .search:
+            return "search"
         }
     }
 }
@@ -60,7 +68,8 @@ class WindowController: NSWindowController, NSToolbarDelegate {
     }
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [ToolbarIdentifier.button.identifier]
+        let defaultItems: [ToolbarIdentifier] = [.search, .button]
+        return defaultItems.map{ $0.identifier }
     }
 
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
@@ -73,26 +82,33 @@ class WindowController: NSWindowController, NSToolbarDelegate {
             print("invalid toolbar item identifier: \(itemIdentifier)")
             return nil
         }
-        let item = NSToolbarItem(itemIdentifier: itemIdentifier)
+        
         switch toolbarIdentifier {
         case .segment:
+            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
             item.view = createSegmentControl()
+            return item
         case .flexibelSpace, .space:
-            break
+            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
+            return item
         case .button:
+            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
             item.isBordered = true
             item.image = toolbarIdentifier.icon
             item.label = toolbarIdentifier.text
             item.action = #selector(buttonClick)
+            return item
         case .nsbutton:
+            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
             item.label = toolbarIdentifier.text
             item.view = createNSButton(image: toolbarIdentifier.icon)
+            return item
+        case .search:
+            let item = NSSearchToolbarItem(itemIdentifier: itemIdentifier)
+            item.searchField.delegate = self
+            item.label = toolbarIdentifier.text
+            return item
         }
-        return item
-    }
-    
-    @objc func buttonClick() {
-        print("toolbar button clicked")
     }
     
     private func createSegmentControl() -> NSSegmentedControl {
@@ -127,5 +143,20 @@ class WindowController: NSWindowController, NSToolbarDelegate {
         button.target = self
         button.action = #selector(buttonClick)
         return button
+    }
+    
+    @objc func buttonClick() {
+        print("toolbar button clicked")
+    }
+}
+
+extension WindowController: NSSearchFieldDelegate {
+    func controlTextDidChange(_ obj: Notification) {
+        if let search = obj.object as? NSSearchField {
+            searchFieldDidChange(search)
+        }
+    }
+    func searchFieldDidChange(_ searchField: NSSearchField) {
+        print("searched \(searchField.stringValue)")
     }
 }
