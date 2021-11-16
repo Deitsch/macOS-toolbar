@@ -23,7 +23,24 @@ enum ToolbarIdentifier: String, CaseIterable {
         default:
             return NSToolbarItem.Identifier(rawValue: rawValue)
         }
-        
+    }
+    
+    var icon: NSImage? {
+        return NSImage(named: "favourites")
+        return NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+    }
+    
+    var text: String {
+        switch self {
+        case .segment:
+            return "segment"
+        case .flexibelSpace, .space:
+            return ""
+        case .button:
+            return "button"
+        case .nsbutton:
+            return "nsbutton"
+        }
     }
 }
 
@@ -64,10 +81,12 @@ class WindowController: NSWindowController, NSToolbarDelegate {
             break
         case .button:
             item.isBordered = true
-            item.image = NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+            item.image = toolbarIdentifier.icon
+            item.label = toolbarIdentifier.text
             item.action = #selector(buttonClick)
         case .nsbutton:
-            item.view = createNSButton()
+            item.label = toolbarIdentifier.text
+            item.view = createNSButton(image: toolbarIdentifier.icon)
         }
         return item
     }
@@ -98,12 +117,12 @@ class WindowController: NSWindowController, NSToolbarDelegate {
         return segmented
     }
     
-    func createNSButton() -> NSButton {
+    func createNSButton(image: NSImage?) -> NSButton {
         let button = NSButton(frame: NSRect.zero)
         button.bezelStyle = .texturedRounded
         button.imagePosition = .imageOnly
         button.imageScaling = NSImageScaling.scaleProportionallyDown
-        button.image = NSImage(systemSymbolName: "bubble.left", accessibilityDescription: nil)
+        button.image = image
         button.objectValue = self
         button.target = self
         button.action = #selector(buttonClick)
